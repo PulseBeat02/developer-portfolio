@@ -11,26 +11,39 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { FaGithub, FaReddit } from "react-icons/fa";
 import {SiSpigotmc, SiModrinth} from "react-icons/si";
-import ReactPlayer from 'react-player'
 
 export const ProjectPage = () => {
 
     const [isMarkdownPopupOpen, setIsMarkdownPopupOpen] = useState(false);
-    const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
     const [markdownContent, setMarkdownContent] = useState('');
-    const [videoUrl, setVideoUrl] = useState('');
+    const [isDemoOpen, setIsDemoOpen] = useState(false);
+    const [demoUrl, setDemoUrl] = useState('');
+
+    const handleDemoClick = (event, demoUrl) => {
+        event.stopPropagation();
+        setDemoUrl(demoUrl);
+        setIsDemoOpen(true);
+    };
 
     const handleProjectClick = async (project) => {
         if (project.content.endsWith('.md')) {
-            const response = await fetch(project.content);
-            const text = await response.text();
-            setMarkdownContent(text);
-            setIsMarkdownPopupOpen(true);
-            setVideoUrl(''); // Clear the video URL
-        } else if (project.video) {
-            setVideoUrl(project.video);
-            setIsVideoPopupOpen(true);
-            setMarkdownContent(''); // Clear the markdown content
+            const cacheName = 'markdown-cache';
+            const cache = await caches.open(cacheName);
+            const cachedResponse = await cache.match(project.content);
+            if (cachedResponse) {
+                const text = await cachedResponse.text();
+                setMarkdownContent(text);
+                setIsMarkdownPopupOpen(true);
+            } else {
+                const response = await fetch(project.content);
+                const text = await response.text();
+                setMarkdownContent(text);
+                setIsMarkdownPopupOpen(true);
+                const newResponse = new Response(text, {
+                    headers: { 'Content-Type': 'text/markdown' }
+                });
+                await cache.put(project.content, newResponse);
+            }
         } else {
             window.open(project.content, '_blank');
         }
@@ -41,8 +54,8 @@ export const ProjectPage = () => {
             title: "EzMediaCore",
             description: "EzMediaCore is a Bukkit library written in Java with the purpose of providing a simple and easy way to render media on a Minecraft server. One of the most fascinating features of EzMediaCore is the ability to render videos on a Bukkit server. External video playback libraries such as FFmpeg or VLC Media Player are used to aid in frame rendering. Dithering algorithms are included in the library to provide a smooth and high-quality video playback experience in-game. With the power of these tools, we're able to play not just standard Youtube videos, but live-streams, screen-shares, webcams, and other input devices, reaching extremely high frame rates with limited bandwidth constraints.",
             content: "https://raw.githubusercontent.com/MinecraftMediaLibrary/EzMediaCore/refs/heads/master/README.md",
-            image: "https://avatars.githubusercontent.com/u/83559452?s=400&u=c91645e9579d9426cc5fb57a91871590d7b41916&v=4",
-            video: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            image: "./images/ezmediacore.webp",
+            demo: "https://user-images.githubusercontent.com/40838203/132433665-a675fc35-e31f-4044-a960-ce46a8fb7df5.mp4",
             icons: [
                 {
                     href: "https://github.com/MinecraftMediaLibrary/EzMediaCore",
@@ -58,7 +71,7 @@ export const ProjectPage = () => {
             title: "Murder Run",
             description: "Inspired by the popular game Dead by Daylight, Murder Run is an advanced gamemode revolving around killers and survivors. In a desolate map, survivors must find all the vehicle parts and throw them back onto the truck before the killers murder everyone. Both killers and survivors have access to a 100+ different gadgets, which can be used to gain advantages and disadvantages. This game is based off SSundee's \"Murder Run\" series on YouTube. Here are some more awesome features about this plugin.",
             content: "https://raw.githubusercontent.com/PulseBeat02/MurderRun/refs/heads/main/README.md",
-            image: "https://raw.githubusercontent.com/PulseBeat02/MurderRun/refs/heads/main/icon.webp",
+            image: "./images/murderrun.webp",
             icons: [
                 {href: "https://github.com/PulseBeat02/MurderRun", icon: <FaGithub className="project-icon"/>},
                 {
@@ -72,7 +85,8 @@ export const ProjectPage = () => {
             title: "Neon",
             description: "Neon is a Bukkit-based plugin written in Java that serves to provide a user-friendly way to browser the internet. Besides rendering websites, it's able to support playback from videos, files, etc. on the internet. Since Neon uses Selenium, the plugin is able to load web pages at blazing fast speeds. Neon was heavily inspired by my EzMediaCore library, which was a plugin that was able to play videos from the internet. It took advantage of playback using VLC Media Player, FFmpeg, and YoutubeDL, but the code base became too complex and I wanted to divert to a project that is more general. That's when I had the idea of websites.",
             content: "https://raw.githubusercontent.com/PulseBeat02/Neon/refs/heads/master/README.md",
-            image: "https://i.imgur.com/2SMNbI8.png",
+            demo: "./videos/neon.mp4",
+            image: "./images/neon.webp",
             icons: [
                 {href: "https://github.com/PulseBeat02/Neon", icon: <FaGithub className="project-icon"/>}
             ]
@@ -81,7 +95,7 @@ export const ProjectPage = () => {
             title: "Earth SMP Mod",
             description: "A fabric mod written for my personal SMP server for my secondary school friends, utilizing complex Mixins and injections to modify the server at runtime. It adds several custom potions, several quality of life features (for example, goat horns giving all surrounding players speed), villager nerfs, buffs to \"non-meta\" weapons like tridents, and so much more to balance vanilla gameplay for users.",
             content: "https://raw.githubusercontent.com/PulseBeat02/earthsmp-mod/refs/heads/main/README.md",
-            image: "https://i.imgur.com/c6sxdPj.png",
+            image: "./images/earthsmp.webp",
             icons: [
                 {href: "https://github.com/PulseBeat02/earthsmp-mod", icon: <FaGithub className="project-icon"/>}
             ]
@@ -90,7 +104,7 @@ export const ProjectPage = () => {
             title: "APES Website",
             description: "A small website for my AP Environmental Science class, which includes a fight for action against climate change. I setup posters around my school with QR codes linking to this website to promote activism and awareness of the climate crisis. https://apes.onrender.com",
             content: "https://apes.onrender.com",
-            image: "https://i.ytimg.com/vi/8y1FE3Y7mlc/maxresdefault.jpg",
+            image: "./images/apes.webp",
             icons: [
                 {href: "https://github.com/PulseBeat02/apes", icon: <FaGithub className="project-icon"/>}
             ]
@@ -113,17 +127,20 @@ export const ProjectPage = () => {
         </Modal>
     );
 
-    const VideoPopup = ({ isOpen, onRequestClose, videoUrl }) => (
+    const DemoPopup = ({isOpen, onRequestClose, demoUrl}) => (
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
-            className="video-popup"
-            overlayClassName="video-popup-overlay"
+            className="markdown-popup"
+            overlayClassName="markdown-popup-overlay"
         >
             <button className="close-button" onClick={onRequestClose}>×</button>
-            <ReactPlayer url={videoUrl} controls={true} width="100%" height="100%" />
+            <video className="video-content" controls>
+                <source src={demoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
         </Modal>
-    )
+    );
 
     useEffect(() => {
 
@@ -150,12 +167,17 @@ export const ProjectPage = () => {
     return (
         <div className="project-page">
             {Projects.map((project, index) => (
-                <div key={index} className="project-item" onClick={() => handleProjectClick(project.content)}>
+                <div key={index} className="project-item" onClick={() => handleProjectClick(project)}>
                     <img src={project.image} alt={project.title} className="project-image"/>
                     <div className="project-content">
                         <h2>{project.title}</h2>
                         <p>{project.description}</p>
-                        <div className="icon-container">
+                        {project.demo && (
+                            <div>
+                                <button className="demo-button" onClick={(event) => handleDemoClick(event, project.demo)}>View Video Demo</button>
+                            </div>
+                        )}
+                        <div className="project-icon-container">
                             {project.icons && project.icons.map((icon, iconIndex) => (
                                 <a key={iconIndex} href={icon.href} className="project-icon">
                                     {icon.icon}
@@ -170,10 +192,10 @@ export const ProjectPage = () => {
                 onRequestClose={() => setIsMarkdownPopupOpen(false)}
                 markdownContent={markdownContent}
             />
-            <VideoPopup
-                isOpen={isVideoPopupOpen}
-                onRequestClose={() => setIsVideoPopupOpen(false)}
-                videoUrl={videoUrl}
+            <DemoPopup
+                isOpen={isDemoOpen}
+                onRequestClose={() => setIsDemoOpen(false)}
+                demoUrl={demoUrl}
             />
         </div>
     );
