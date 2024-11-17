@@ -1,0 +1,242 @@
+@font-face {
+  font-family: 'Inter var';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: block;
+  src: url(./Inter-roman.latin.var.woff2) format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter var';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: block;
+  src: url(./Inter-italic.latin.var.woff2) format('woff2');
+}
+
+body {
+  font-family: 'Inter var', system-ui, -apple-system, BlinkMacSystemFont,
+  'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-feature-settings: 'case' 1, 'cpsp' 1, 'dlig' 1, 'cv01' 1, 'cv02',
+  'cv03' 1, 'cv04' 1;
+  font-variation-settings: 'wght' 450;
+  font-variant: common-ligatures contextual;
+  letter-spacing: -0.02em;
+}
+
+b, strong, h3, h4, h5, h6 {
+  font-variation-settings: 'wght' 650;
+}
+
+h1 {
+  font-variation-settings: 'wght' 850;
+}
+
+h2 {
+  font-variation-settings: 'wght' 750;
+}
+
+@media screen and (min-device-pixel-ratio: 1.5),
+screen and (min-resolution: 1.5dppx) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+details summary {
+  cursor: pointer;
+}
+
+img.next-image {
+  margin: 0;
+}
+
+.prose a {
+  color: #0074de;
+}
+
+.nav-line .nav-link {
+  color: #69778c;
+}
+
+.project-icon {
+  font-size: 1.5em;
+  margin-right: 0.8rem;
+  color: #0070f3;
+}
+
+.icon {
+  font-size: 2em;
+  margin-right: 0.8rem;
+  color: #0070f3;
+}
+
+.icon-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1em;
+}
+
+.button {
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  font-size: 1em;
+  width: 150px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.6rem;
+  text-align: center;
+  box-shadow: 0 0.25rem 0.9rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  float: left;
+  margin-right: 1em;
+}
+
+.project-button {
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  font-size: 1em;
+  width: 250px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.6rem;
+  text-align: center;
+  box-shadow: 0 0.25rem 0.9rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  float: left;
+  margin-right: 1em;
+}
+
+.button:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.3);
+}
+
+.nx-container {
+  width: 80%;
+  max-width: 1200px;
+}
+
+.float-left {
+  float: left;
+}
+
+img.next-image {
+  width: 40%;
+  height: auto;
+  margin-right: 3rem;
+  margin-bottom: 1rem;
+}
+
+.contact-button {
+  display: inline-block;
+  margin-right: 1em;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.project-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-item {
+  display: flex;
+  margin-bottom: 1.25em;
+  align-items: center;
+  padding: 1em;
+  background: #333333;
+  border-radius: 0.625em;
+  cursor: grab;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.project-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.project-image {
+  width: 30%;
+  margin-right: 4em;
+  margin-left: 2em;
+}
+
+.project-content {
+  flex: 1;
+  margin-right: 2em;
+}
+
+.project-content h3 {
+  margin: 10px 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.project-content p {
+  font-size: 1em;
+  color: #666;
+  text-align: left;
+}
+
+.markdown-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background: #333333;
+  padding: 40px;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 95%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.markdown-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.iframe-content {
+  width: 100%;
+  height: 80vh;
+  border: none;
+}
+
+.project-item.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
