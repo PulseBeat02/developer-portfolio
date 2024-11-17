@@ -72,6 +72,7 @@ export const ProjectPage = () => {
             description: "Inspired by the popular game Dead by Daylight, Murder Run is an advanced gamemode revolving around killers and survivors. In a desolate map, survivors must find all the vehicle parts and throw them back onto the truck before the killers murder everyone. Both killers and survivors have access to a 100+ different gadgets, which can be used to gain advantages and disadvantages. This game is based off SSundee's \"Murder Run\" series on YouTube. Here are some more awesome features about this plugin.",
             content: "https://raw.githubusercontent.com/PulseBeat02/MurderRun/refs/heads/main/README.md",
             image: "./images/murderrun.webp",
+            demo: "https://github.com/PulseBeat02/MurderRun/blob/main/gadget.gif?raw=true",
             icons: [
                 {href: "https://github.com/PulseBeat02/MurderRun", icon: <FaGithub className="project-icon"/>},
                 {
@@ -127,20 +128,27 @@ export const ProjectPage = () => {
         </Modal>
     );
 
-    const DemoPopup = ({isOpen, onRequestClose, demoUrl}) => (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            className="markdown-popup"
-            overlayClassName="markdown-popup-overlay"
-        >
-            <button className="close-button" onClick={onRequestClose}>×</button>
-            <video className="video-content" controls>
-                <source src={demoUrl} type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
-        </Modal>
-    );
+    const DemoPopup = ({isOpen, onRequestClose, demoUrl}) => {
+        const isVideo = demoUrl.endsWith('.mp4');
+        return (
+            <Modal
+                isOpen={isOpen}
+                onRequestClose={onRequestClose}
+                className="markdown-popup"
+                overlayClassName="markdown-popup-overlay"
+            >
+                <button className="close-button" onClick={onRequestClose}>×</button>
+                {isVideo ? (
+                    <video className="video-content" controls>
+                        <source src={demoUrl} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                ) : (
+                    <img src={demoUrl} alt="Demo" className="image-content" />
+                )}
+            </Modal>
+        );
+    };
 
     useEffect(() => {
         const handleScroll = () => {
