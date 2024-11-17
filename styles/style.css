@@ -253,6 +253,11 @@ img.next-image {
   border: none;
 }
 
+.project-item.fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
 .project-item.fade-in {
   opacity: 1;
   transform: translateY(0);

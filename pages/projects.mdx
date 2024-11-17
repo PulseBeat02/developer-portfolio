@@ -143,15 +143,16 @@ export const ProjectPage = () => {
     );
 
     useEffect(() => {
-
         const handleScroll = () => {
             const projectItems = document.querySelectorAll('.project-item');
             projectItems.forEach(item => {
                 const rect = item.getBoundingClientRect();
                 if (rect.top < window.innerHeight && rect.bottom > 0) {
                     item.classList.add('fade-in');
+                    item.classList.remove('fade-out');
                 } else {
                     item.classList.remove('fade-in');
+                    item.classList.add('fade-out');
                 }
             });
         };
