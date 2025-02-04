@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start -p 80 --experimental-https",
+    "start": "next dev -p 80 --experimental-https",
     "postbuild": "next-sitemap"
   },
   "dependencies": {
